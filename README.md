@@ -1,4 +1,4 @@
-dreamweaver-cakephp-colors
+Dreamweaver CC CakePHP Code Coloring
 =======================
 
 [Adobe Dreamweaver CC IDE] dreamweaver / brackets extension which visualizes CakePHP code coloring.
