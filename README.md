@@ -15,7 +15,7 @@ Copy this extension to your dreamweaver folder:
 
 Clone the extension into the %appdata%\Adobe\Dreamweaver CC 2019\en_US\Configuration\Brackets\extensions\user directory.
 
-    git clone git://github.com/jsonjuri/dreamweaver-highlight-trailing-spaces.git 
+    git clone git://github.com/jsonjuri/dreamweaver-cakephp-colors.git 
     
 ## License
 
