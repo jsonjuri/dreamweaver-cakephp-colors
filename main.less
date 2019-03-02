@@ -1,0 +1,148 @@
+#editor-holder{
+    // cm-variables starting with $ different color [added cm-variable-1, cm-variable-2]
+    .cm-tag, .cm-builtin, .cm-qualifier,.cm-variable,.cm-variable-1,.cm-variable-2 {
+        // [BEGIN] cm-variables starting with $ different color
+		@model: #e36d6d;
+		@modelMethod: #e36d6d;
+		@modelCallback: #e36d6d;
+		
+		@controllerMethod: #b5dca2;
+		@controllerCallback: #b5dca2;
+		
+        @request: #c774d9;
+		@component: #ffd766;
+
+        &.cm-dreamweaver-cakephp-model-properties {			
+			&-name{color: @model;}	
+			&-validate{color: @model;}
+            &-validationErrors{color: @model;}
+            &-recursive{color: @model;}
+            &-cacheQueries{color: @model;}           
+            &-id{color: @model;}
+            &-primaryKey{color: @model;}
+            &-displayField{color: @model;}
+            &-useTable{color: @model;}
+            &-useDbConfig{color: @model;}
+            &-_tableInfo{color: @model;}
+			&-actsAs{color: @model;}
+            &-belongsTo{color: @model;}
+			&-hasAndBelongsToMany{color: @model;}
+            &-hasOne{color: @model;}
+            &-hasMany{color: @model;}
+        }
+		
+		&.cm-dreamweaver-cakephp-model-methods {	
+			&-bindModel{color: @modelMethod;}	
+			&-unbindModel{color: @modelMethod;}	
+			&-loadModel{color: @modelMethod;}	
+			&-create{color: @modelMethod;}	
+			&-clear{color: @modelMethod;}	
+			&-delete{color: @modelMethod;}	
+			&-deleteAll{color: @modelMethod;}	
+			&-updateAll{color: @modelMethod;}	
+			&-escapeField{color: @modelMethod;}	
+			&-execute{color: @modelMethod;}	
+			&-exists{color: @modelMethod;}	
+			&-find{color: @modelMethod;}				
+			&-findAll{color: @modelMethod;}	
+			&-findAllThreaded{color: @modelMethod;}	
+			&-findCount{color: @modelMethod;}	
+			&-findNeighbours{color: @modelMethod;}	
+			&-generateList{color: @modelMethod;}	
+			&-getAffectedRows{color: @modelMethod;}			
+			&-getColumnType{color: @modelMethod;}	
+			&-getColumnTypes{color: @modelMethod;}	
+			&-getDisplayField{color: @modelMethod;}			
+			&-getId{color: @modelMethod;}	
+			&-getNumRows{color: @modelMethod;}	
+			&-hasAny{color: @modelMethod;}	
+			&-hasField{color: @modelMethod;}	
+			&-invalidate{color: @modelMethod;}	
+			&-invalidFields{color: @modelMethod;}				
+			&-isForeignKey{color: @modelMethod;}	
+			&-loadInfo{color: @modelMethod;}				
+			&-query{color: @modelMethod;}	
+			&-read{color: @modelMethod;}	
+			&-remove{color: @modelMethod;}	
+			&-save{color: @modelMethod;}	
+			&-saveField{color: @modelMethod;}	
+			&-saveAssociated{color: @modelMethod;}	
+			&-set{color: @modelMethod;}		
+			&-setDataSource{color: @modelMethod;}	
+			&-setSource{color: @modelMethod;}	
+			&-validate{color: @modelMethod;}	
+			&-validates{color: @modelMethod;}	
+        }
+		
+		&.cm-dreamweaver-cakephp-model-callbacks {	
+			&-beforeSave{color: @modelCallback;}
+			&-afterSave{color: @modelCallback;}
+			&-beforeDelete{color: @modelCallback;}
+			&-afterDelete{color: @modelCallback;}
+			&-beforeFind{color: @modelCallback;}
+			&-afterFind{color: @modelCallback;}
+			&-beforeValidate{color: @modelCallback;}
+			&-afterValidate{color: @modelCallback;}
+			&-onError{color: @modelCallback;}
+        }
+		
+		&.cm-dreamweaver-cakephp-controller-methods {
+			&-cleanUpFields{color: @controllerMethod;}
+			&-constructClasses{color: @controllerMethod;}
+			&-flash{color: @controllerMethod;}
+			&-FlashOut{color: @controllerMethod;}
+			&-generateFieldNames{color: @controllerMethod;}
+			&-PostConditions{color: @controllerMethod;}
+			&-redirect{color: @controllerMethod;}
+			&-referer{color: @controllerMethod;}
+			&-render{color: @controllerMethod;}
+			&-element{color: @controllerMethod;}
+			&-autoRender{color: @controllerMethod;}
+			&-viewClass{color: @controllerMethod;}
+			&-viewPath{color: @controllerMethod;}
+		}
+			
+		&.cm-dreamweaver-cakephp-controller-callbacks {	
+			&-beforeFilter{color: @controllerCallback;}
+			&-beforeRender{color: @controllerCallback;}
+			&-afterFilter{color: @controllerCallback;}
+			&-initialize{color: @controllerCallback;}
+			&-startup{color: @controllerCallback;}
+			&-__construct{color: @controllerCallback;}
+        }
+		
+		&.cm-dreamweaver-cakephp-components {	
+			&-Acl{color: @component;}
+			&-Auth{color: @component;}
+			&-Cookie{color: @component;}
+			&-Session{color: @component;}
+			&-Flash{color: @component;}			
+			&-Paginator{color: @component;}
+			&-Email{color: @component;}
+			&-RequestHandler{color: @component;}
+			&-Security{color: @component;}
+			&-Json{color: @component;}
+			&-Account{color: @component;}
+			&-Logged{color: @component;}
+			&-Activity{color: @component;}
+			&-Application{color: @component;}
+			&-Emojione{color: @component;}
+        }
+		
+		&.cm-dreamweaver-cakephp-others {	
+			&-request{color: @request;}
+			&-Auth{color: #a6d634;}
+			&-error{color: #e36d6d;}
+			&-success{color: #a6d634;}
+        }
+				
+        // [END] cm-variables starting with $ different color
+    }
+    .cm-bracket {opacity: .9;}
+    .cm-attribute{
+        &.cm-dreamweaver-cakephp-tag-ID:not(#arienai){
+            color: #B20000;
+            //font-weight: bold;
+        }
+    }
+}
