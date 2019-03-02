@@ -3,9 +3,8 @@ dreamweaver-cakephp-colors
 
 [Adobe Dreamweaver CC IDE] dreamweaver / brackets extension. Which visualizes CakePHP.
 
-This extension adds the CSS class `<span class="cm-variable-2"></span>` to edit code coloring. Based on CodeMirror addon.
-
-The styles are defined in `main.less`.
+This extension adds the CSS class `<span class="cm-variable-2"></span>` to edit code coloring. 
+The styles are defined in `main.less` and variables in `main.js`.
 
 ## Install
 
