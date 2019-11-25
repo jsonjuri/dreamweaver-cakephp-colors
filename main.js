@@ -9,216 +9,200 @@ define(function(require, exports, module) {
     
     var tagRegExp = new RegExp(/^[a-z\-]+[1-6]*$/);
 
-    var overlay = {
-        token: function(stream/*, state*/) {
-            var arr;
-            arr = stream.match(/<(\/|)([a-z\-]+[1-6]*)(|(.*?)[^?%\-$])>/);
-            if (arr && tagRegExp.test(arr[2])) {
-                return "dreamweaver-cakephp-tag-" + arr[2].toUpperCase();
-            }
-            while (stream.next() != null && !stream.match(/<(\/|)|(\/|)>/, false)) {}
-            return null;
-        }
-    };
-	
-	function getValsWrappedIn(str, vars) {
-		var rg = new RegExp("(\\$starthack|\\$" + vars + "|\\$endhack)","g"); 
-		return str.match(rg);
-	}
+    var modelProperties = [
+        "actsAs",
+        "belongsTo", 
+        "hasAndBelongsToMany",
+        "hasMany", 
+        "hasOne",
+        "validate", 
+        "validationErrors", 			
+        "recursive", 
+        "cacheQueries", 
+        "name",
+        "id", 
+        "primaryKey", 
+        "displayField",			
+        "useTable",
+        "useDbConfig", 
+        "_tableInfo"
+    ];
+    var modelPropertiesRegExp = new RegExp("(\\$startModelProperties|\\$" + modelProperties.join('|\\$') + "|\\$endModelProperties)","g");
+
+    var modelMethods = [
+        "bindModel",
+        "unbindModel",
+        "loadModel",
+        "create", 
+        "clear",
+        "set",
+        "delete",
+        "deleteAll",
+        "updateAll",
+        "escapeField", 
+        "execute",
+        "exists", 
+        "find", 			
+        "findAll", 
+        "findAllThreaded", 
+        "findCount",
+        "findNeighbours", 
+        "generateList", 
+        "getAffectedRows",			
+        "getColumnType",
+        "getColumnTypes", 
+        "getDisplayField",			
+        "getId", 
+        "getNumRows", 
+        "hasAny",
+        "hasField", 
+        "invalidate", 
+        "invalidFields",			
+        "isForeignKey",
+        "loadInfo",			
+        "query", 
+        "read", 
+        "write",
+        "remove",
+        "save", 
+        "saveField", 
+        "saveAssociated",		
+        "setDataSource",
+        "setSource", 
+        "validate",
+        "validateData",
+        "validateFields",
+        "validates"
+    ];
+    var modelMethodsRegExp = new RegExp("(startModelMethodes|" + modelMethods.join('|') + "|endModelMethods)","g");
+
+    var modelCallbacks = [
+        "beforeSave",
+        "afterSave",
+        "beforeDelete",
+        "afterDelete",
+        "beforeFind",
+        "afterFind",
+        "beforeValidate",
+        "afterValidate",
+        "onError"
+    ];
+    var modelCallbacksRegExp = new RegExp("(startModelCallbacks|" + modelCallbacks.join('|') + "|endModelCallbacks)","g");
+
+    var ctrlMethods = [
+        "cleanUpFields",
+        "constructClasses",
+        "flash",
+        "FlashOut", 
+        "generateFieldNames",
+        "PostConditions",
+        "redirect",
+        "referer",
+        "render", 
+        "element",
+        "autoRender", 
+        "viewClass",
+        "viewPath"
+    ];
+    var ctrlMethodsRegExp = new RegExp("(startCtrlMethodes|" + ctrlMethods.join('|') + "|endCtrlMethods)","g");
+
+    var ctrlCallbacks = [
+        "__construct",
+        "initialize",
+        "startup",
+        "beforeFilter",
+        "beforeRender",
+        "afterFilter"
+    ];
+    var ctrlCallbacksRegExp = new RegExp("(startCtrlCallbacks|" + ctrlCallbacks.join('|') + "|endCtrlCallbacks)","g");
+
+    var others = [
+        "controller",
+        "request",
+        "Auth",
+        "allow", 
+        "deny", 
+        "error",
+        "success",
+        "this"
+    ];
+    var othersRegExp = new RegExp("(startOthers|" + others.join('|') + "|endOthers)","g");
+
+    var components = [
+        "Acl",
+        "Auth",
+        "Cookie",
+        "Session",
+        "Flash",			
+        "Paginator",
+        "Email",
+        "RequestHandler",
+        "Security",
+        "Mail", // Start add your own components below
+        "Pagination",
+        "Json",
+        "Account",
+        "Logged",
+        "Activity",
+        "Application",
+        "Emojione",
+        "Bot",
+        "Firebase",
+        "Verification",
+        "Password",
+        "Node",
+        "Token",
+        "Integer",
+        "Widget"
+    ];
+    var componentsRegExp = new RegExp("(startOthers|" + components.join('|') + "|endOthers)","g");
+
+    // Dirty method to avoid running when its not necessary.
+    var ignore = [
+        "ignore",
+        "ignoreClasses",
+        "html",
+        "elm",
+        "cm",
+        "cmMode",
+        "variable",
+        "cmVariables",
+        "RegExp",
+        "components",
+        "Array",
+        "console",
+        "EditorManager",
+        "editor",
+        "MODES",
+        "overlay",
+        "tag_color_change",
+        "AppInit",
+        "MainViewManager",
+        "updateUI",
+        "ExtensionUtils",
+        "module",
+        "modelPropertiesRegExp",
+        "modelMethodsRegExp",
+        "modelCallbacksRegExp",
+        "ctrlMethodsRegExp",
+        "ctrlCallbacksRegExp",
+        "componentsRegExp",
+        "othersRegExp"
+    ];
+
+    var ignoreClasses = [
+        "cm-jquery",
+        "cm-angular",
+        "cm-javascript"           
+    ];
 
     function tag_color_change() {        
-        var cmVariables = document.getElementById("editor-holder").querySelectorAll(".cm-variable, .cm-variable-1, .cm-variable-2, .cm-variable-3");
-		
-		var modelProperties = [
-			"actsAs",
-			"belongsTo", 
-			"hasAndBelongsToMany",
-			"hasMany", 
-			"hasOne",
-			"validate", 
-			"validationErrors", 			
-			"recursive", 
-			"cacheQueries", 
-			"name",
-			"id", 
-			"primaryKey", 
-			"displayField",			
-			"useTable",
-			"useDbConfig", 
-			"_tableInfo"
-		];
-        var modelPropertiesRegExp = new RegExp("(\\$startModelProperties|\\$" + modelProperties.join('|\\$') + "|\\$endModelProperties)","g");
-		
-		var modelMethods = [
-			"bindModel",
-			"unbindModel",
-			"loadModel",
-			"create", 
-			"clear",
-			"set",
-			"delete",
-			"deleteAll",
-			"updateAll",
-			"escapeField", 
-			"execute",
-			"exists", 
-			"find", 			
-			"findAll", 
-			"findAllThreaded", 
-			"findCount",
-			"findNeighbours", 
-			"generateList", 
-			"getAffectedRows",			
-			"getColumnType",
-			"getColumnTypes", 
-			"getDisplayField",			
-			"getId", 
-			"getNumRows", 
-			"hasAny",
-			"hasField", 
-			"invalidate", 
-			"invalidFields",			
-			"isForeignKey",
-			"loadInfo",			
-			"query", 
-			"read", 
-			"write",
-			"remove",
-			"save", 
-			"saveField", 
-			"saveAssociated",		
-			"setDataSource",
-			"setSource", 
-			"validate",
-			"validateData",
-			"validateFields",
-			"validates"
-		];
-		var modelMethodsRegExp = new RegExp("(startModelMethodes|" + modelMethods.join('|') + "|endModelMethods)","g");
-		
-		var modelCallbacks = [
-			"beforeSave",
-			"afterSave",
-			"beforeDelete",
-			"afterDelete",
-			"beforeFind",
-			"afterFind",
-			"beforeValidate",
-			"afterValidate",
-			"onError"
-		];
-        var modelCallbacksRegExp = new RegExp("(startModelCallbacks|" + modelCallbacks.join('|') + "|endModelCallbacks)","g");
-		
-		var ctrlMethods = [
-			"cleanUpFields",
-			"constructClasses",
-			"flash",
-			"FlashOut", 
-			"generateFieldNames",
-			"PostConditions",
-			"redirect",
-			"referer",
-			"render", 
-			"element",
-			"autoRender", 
-			"viewClass",
-			"viewPath"
-		];
-		var ctrlMethodsRegExp = new RegExp("(startCtrlMethodes|" + ctrlMethods.join('|') + "|endCtrlMethods)","g");
-		
-		var ctrlCallbacks = [
-			"__construct",
-			"initialize",
-			"startup",
-			"beforeFilter",
-			"beforeRender",
-			"afterFilter"
-		];
-        var ctrlCallbacksRegExp = new RegExp("(startCtrlCallbacks|" + ctrlCallbacks.join('|') + "|endCtrlCallbacks)","g");
-		
-		var others = [
-			"controller",
-			"request",
-			"Auth",
-			"allow", 
-			"deny", 
-			"error",
-			"success",
-            "this"
-		];
-        var othersRegExp = new RegExp("(startOthers|" + others.join('|') + "|endOthers)","g");
-		
-		var components = [
-			"Acl",
-			"Auth",
-			"Cookie",
-			"Session",
-			"Flash",			
-			"Paginator",
-			"Email",
-			"RequestHandler",
-			"Security",
-			"Mail", // Start add your own components below
-			"Pagination",
-			"Json",
-			"Account",
-			"Logged",
-			"Activity",
-			"Application",
-			"Emojione",
-			"Bot",
-			"Firebase",
-			"Verification",
-			"Password",
-			"Node",
-			"Token",
-			"Integer",
-			"Widget"
-		];
-        var componentsRegExp = new RegExp("(startOthers|" + components.join('|') + "|endOthers)","g");
-        
-        // Dirty method to avoid running when its not necessary.
-        var ignore = [
-            "ignore",
-            "ignoreClasses",
-            "html",
-            "elm",
-            "cm",
-            "cmMode",
-            "variable",
-            "cmVariables",
-            "RegExp",
-            "components",
-            "Array",
-            "console",
-            "EditorManager",
-            "editor",
-            "MODES",
-            "overlay",
-            "tag_color_change",
-            "AppInit",
-            "MainViewManager",
-            "updateUI",
-            "ExtensionUtils",
-            "module",
-            "modelPropertiesRegExp",
-            "modelMethodsRegExp",
-            "modelCallbacksRegExp",
-            "ctrlMethodsRegExp",
-            "ctrlCallbacksRegExp",
-            "componentsRegExp",
-            "othersRegExp"
-        ];
-        
-        var ignoreClasses = [
-            "cm-jquery",
-            "cm-angular",
-            "cm-javascript"           
-        ];
-        
+        var cmVariables = document.getElementById("editor-holder").querySelectorAll(".cm-variable:not(.cm-cakephp), .cm-variable-1:not(.cm-cakephp), .cm-variable-2:not(.cm-cakephp), .cm-variable-3:not(.cm-cakephp)");
+
         Array.prototype.forEach.call(cmVariables, function(elm) {
             var html = elm.innerHTML;
             html = html.replace(/^(#|\.)/, "");
+            html = html.replace(/['"]+/g, "");
             
             // Dirty method to avoid running when its not necessary.
             if (ignore.indexOf(html) !== -1) {  
@@ -280,8 +264,6 @@ define(function(require, exports, module) {
         }
 
         if (MODES.indexOf(cmMode) !== -1) {
-            cm.removeOverlay(overlay);
-            cm.addOverlay(overlay);
             cm.on("update", tag_color_change);
         }
     }
