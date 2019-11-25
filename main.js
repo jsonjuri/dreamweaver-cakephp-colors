@@ -124,6 +124,8 @@ define(function(require, exports, module) {
         "deny", 
         "error",
         "success",
+        "empty",
+        "isset",
         "this"
     ];
     var othersRegExp = new RegExp("(startOthers|" + others.join('|') + "|endOthers)","g");
