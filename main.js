@@ -220,15 +220,34 @@ define(function(require, exports, module) {
             var html = elm.innerHTML;
             html = html.replace(/^(#|\.)/, "");
             
+<<<<<<< HEAD
             // Dirty method to avoid running when its not necessary.
             if (ignore.indexOf(html) !== -1) {  
                 return;
+=======
+            if (modelPropertiesRegExp.test(html)) {
+                var variable = html.replace("$", "");
+                elm.classList.add("cm-dreamweaver-cakephp-model-properties-" + variable);
+            }		
+		
+            if (modelMethodsRegExp.test(html)) {
+                elm.classList.add("cm-dreamweaver-cakephp-model-methods-" + html);
+            }
+			
+			if (modelCallbacksRegExp.test(html)) {
+                elm.classList.add("cm-dreamweaver-cakephp-model-callbacks-" + html);
+            }
+			
+			if (controllerMethodsRegExp.test(html)) {
+                elm.classList.add("cm-dreamweaver-cakephp-controller-methods-" + html);
+>>>>>>> abba07dc50f533669b39d7f73e384ad9c168e917
             }
             
             // Dirty method to avoid running when its not necessary.
             if (ignoreClasses.indexOf(elm.classList) !== -1) {  
                 return;
             }
+<<<<<<< HEAD
             
             if (modelPropertiesRegExp.test(html)) {
                 var variable = html.replace("$", "");
@@ -256,6 +275,16 @@ define(function(require, exports, module) {
                 // Another dirty hack to make it workable...
                 var variable = html.replace("this", "string-this").replace("$", "");
                 elm.classList.add("cm-dreamweaver-cakephp-others-" + variable, "cm-cakephp"); 
+=======
+			
+			if (componentsRegExp.test(html)) {
+                elm.classList.add("cm-dreamweaver-cakephp-components-" + html);
+            }
+            
+            if (othersRegExp.test(html)) {
+                var variable = html.replace("this", "string-this").replace("$", "");
+                elm.classList.add("cm-dreamweaver-cakephp-others-" + variable);
+>>>>>>> abba07dc50f533669b39d7f73e384ad9c168e917
             }
         });
         
@@ -279,7 +308,11 @@ define(function(require, exports, module) {
             cmMode = cm.options.mode.name;
         }
 
+<<<<<<< HEAD
         if (MODES.indexOf(cmMode) !== -1) {
+=======
+        if (MODES.indexOf(cmMode) !== -1) {                
+>>>>>>> abba07dc50f533669b39d7f73e384ad9c168e917
             cm.removeOverlay(overlay);
             cm.addOverlay(overlay);
             cm.on("update", tag_color_change);
