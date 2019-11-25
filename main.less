@@ -1,6 +1,6 @@
 #editor-holder{
     // cm-variables starting with $ different color [added cm-variable-1, cm-variable-2]
-    .cm-tag, .cm-builtin, .cm-qualifier,.cm-variable,.cm-variable-1,.cm-variable-2 {
+    .cm-tag, .cm-builtin, .cm-qualifier,.cm-variable,.cm-variable-1,.cm-variable-2, .cm-string {
         // [BEGIN] cm-variables starting with $ different color
 		@model: #e36d6d;
 		@modelMethod: #e36d6d;
@@ -12,13 +12,13 @@
         @request: #c774d9;
 		@component: #ffd766;
 
-        &.cm-dreamweaver-cakephp-model-properties {			
-			&-name{color: @model;}	
+        &.cm-dreamweaver-cakephp-model-properties:not(.cm-variable-2) {	
+			&-id{color: @model;}		
+			&-name{color: @model;}
 			&-validate{color: @model;}
             &-validationErrors{color: @model;}
             &-recursive{color: @model;}
-            &-cacheQueries{color: @model;}           
-            &-id{color: @model;}
+            &-cacheQueries{color: @model;}
             &-primaryKey{color: @model;}
             &-displayField{color: @model;}
             &-useTable{color: @model;}
@@ -62,7 +62,8 @@
 			&-isForeignKey{color: @modelMethod;}	
 			&-loadInfo{color: @modelMethod;}				
 			&-query{color: @modelMethod;}	
-			&-read{color: @modelMethod;}	
+			&-read{color: #a6d634;}
+			&-write{color: @modelMethod;}
 			&-remove{color: @modelMethod;}	
 			&-save{color: @modelMethod;}	
 			&-saveField{color: @modelMethod;}	
@@ -70,7 +71,9 @@
 			&-set{color: @modelMethod;}		
 			&-setDataSource{color: @modelMethod;}	
 			&-setSource{color: @modelMethod;}	
-			&-validate{color: @modelMethod;}	
+			&-validate{color: @modelMethod;}
+			&-validateData{color: @modelMethod;}
+			&-validateFields{color: @modelMethod;}
 			&-validates{color: @modelMethod;}	
         }
 		
@@ -118,7 +121,9 @@
 			&-Session{color: @component;}
 			&-Flash{color: @component;}			
 			&-Paginator{color: @component;}
+			&-Pagination{color: @component;}
 			&-Email{color: @component;}
+			&-Mail{color: @component;}
 			&-RequestHandler{color: @component;}
 			&-Security{color: @component;}
 			&-Json{color: @component;}
@@ -127,18 +132,31 @@
 			&-Activity{color: @component;}
 			&-Application{color: @component;}
 			&-Emojione{color: @component;}
+			&-Bot{color: @component;}
+			&-Firebase{color: @component;}
+			&-Verification{color: @component;}
+			&-Password{color: @component;}
+			&-Node{color: @component;}
+			&-Token{color: @component;}
+			&-Integer{color: @component;}
+			&-Widget{color: @component;}			
         }
 		
-		&.cm-dreamweaver-cakephp-others {	
+		&.cm-dreamweaver-cakephp-others {
+			&-controller{color: @request;}
 			&-request{color: @request;}
 			&-Auth{color: #a6d634;}
+			&-allow{color: #a6d634;}
+			&-deny{color: #e36d6d;}
 			&-error{color: #e36d6d;}
 			&-success{color: #a6d634;}
         }
 				
         // [END] cm-variables starting with $ different color
     }
+	.cm-builtin {color: #e28642;}
     .cm-bracket {opacity: .9;}
+	.cm-m-clike.cm-string {color: #93DBC9}
     .cm-attribute{
         &.cm-dreamweaver-cakephp-tag-ID:not(#arienai){
             color: #B20000;
