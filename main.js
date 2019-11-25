@@ -6,7 +6,7 @@ define(function(require, exports, module) {
         AppInit = brackets.getModule("utils/AppInit"),
         MainViewManager = brackets.getModule("view/MainViewManager"),
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
-
+    
     var tagRegExp = new RegExp(/^[a-z\-]+[1-6]*$/);
 
     var overlay = {
@@ -30,8 +30,6 @@ define(function(require, exports, module) {
         var cmVariables = document.getElementById("editor-holder").querySelectorAll(".cm-variable, .cm-variable-1, .cm-variable-2, .cm-variable-3");
 		
 		var modelProperties = [
-			"name",
-			"id", 
 			"actsAs",
 			"belongsTo", 
 			"hasAndBelongsToMany",
@@ -41,6 +39,8 @@ define(function(require, exports, module) {
 			"validationErrors", 			
 			"recursive", 
 			"cacheQueries", 
+			"name",
+			"id", 
 			"primaryKey", 
 			"displayField",			
 			"useTable",
@@ -109,7 +109,7 @@ define(function(require, exports, module) {
 		];
         var modelCallbacksRegExp = new RegExp("(startModelCallbacks|" + modelCallbacks.join('|') + "|endModelCallbacks)","g");
 		
-		var controllerMethods = [
+		var ctrlMethods = [
 			"cleanUpFields",
 			"constructClasses",
 			"flash",
@@ -124,9 +124,9 @@ define(function(require, exports, module) {
 			"viewClass",
 			"viewPath"
 		];
-		var controllerMethodsRegExp = new RegExp("(startControllerMethodes|" + controllerMethods.join('|') + "|endControllerMethods)","g");
+		var ctrlMethodsRegExp = new RegExp("(startCtrlMethodes|" + ctrlMethods.join('|') + "|endCtrlMethods)","g");
 		
-		var controllerCallbacks = [
+		var ctrlCallbacks = [
 			"__construct",
 			"initialize",
 			"startup",
@@ -134,7 +134,7 @@ define(function(require, exports, module) {
 			"beforeRender",
 			"afterFilter"
 		];
-        var controllerCallbacksRegExp = new RegExp("(startControllerCallbacks|" + controllerCallbacks.join('|') + "|endControllerCallbacks)","g");
+        var ctrlCallbacksRegExp = new RegExp("(startCtrlCallbacks|" + ctrlCallbacks.join('|') + "|endCtrlCallbacks)","g");
 		
 		var others = [
 			"controller",
@@ -143,7 +143,8 @@ define(function(require, exports, module) {
 			"allow", 
 			"deny", 
 			"error",
-			"success"
+			"success",
+            "this"
 		];
         var othersRegExp = new RegExp("(startOthers|" + others.join('|') + "|endOthers)","g");
 		
@@ -175,53 +176,114 @@ define(function(require, exports, module) {
 			"Widget"
 		];
         var componentsRegExp = new RegExp("(startOthers|" + components.join('|') + "|endOthers)","g");
-
+        
+        // Dirty method to avoid running when its not necessary.
+        var ignore = [
+            "ignore",
+            "ignoreClasses",
+            "html",
+            "elm",
+            "cm",
+            "cmMode",
+            "variable",
+            "cmVariables",
+            "RegExp",
+            "components",
+            "Array",
+            "console",
+            "EditorManager",
+            "editor",
+            "MODES",
+            "overlay",
+            "tag_color_change",
+            "AppInit",
+            "MainViewManager",
+            "updateUI",
+            "ExtensionUtils",
+            "module",
+            "modelPropertiesRegExp",
+            "modelMethodsRegExp",
+            "modelCallbacksRegExp",
+            "ctrlMethodsRegExp",
+            "ctrlCallbacksRegExp",
+            "componentsRegExp",
+            "othersRegExp"
+        ];
+        
+        var ignoreClasses = [
+            "cm-jquery",
+            "cm-angular",
+            "cm-javascript"           
+        ];
+        
         Array.prototype.forEach.call(cmVariables, function(elm) {
             var html = elm.innerHTML;
-		
             html = html.replace(/^(#|\.)/, "");
-
+            
+            // Dirty method to avoid running when its not necessary.
+            if (ignore.indexOf(html) !== -1) {  
+                return;
+            }
+            
+            // Dirty method to avoid running when its not necessary.
+            if (ignoreClasses.indexOf(elm.classList) !== -1) {  
+                return;
+            }
+            
             if (modelPropertiesRegExp.test(html)) {
                 var variable = html.replace("$", "");
-                elm.classList.add("cm-dreamweaver-cakephp-model-properties-" + variable);
-            }		
-		
-            if (modelMethodsRegExp.test(html)) {
-                elm.classList.add("cm-dreamweaver-cakephp-model-methods-" + html);
-            }
-			
-			if (modelCallbacksRegExp.test(html)) {
-                elm.classList.add("cm-dreamweaver-cakephp-model-callbacks-" + html);
-            }
-			
-			if (controllerMethodsRegExp.test(html)) {
-                elm.classList.add("cm-dreamweaver-cakephp-controller-methods-" + html);
-            }
-			
-			if (controllerCallbacksRegExp.test(html)) {
-                elm.classList.add("cm-dreamweaver-cakephp-controller-callbacks-" + html);
-            }
-			
-			if (componentsRegExp.test(html)) {
-                elm.classList.add("cm-dreamweaver-cakephp-components-" + html);
-            }
-			
-			if (othersRegExp.test(html)) {
-                elm.classList.add("cm-dreamweaver-cakephp-others-" + html);
+                elm.classList.add("cm-dreamweaver-cakephp-model-properties-" + variable, "cm-cakephp");
+            } 
+            else if (modelMethodsRegExp.test(html)) {
+                elm.classList.add("cm-dreamweaver-cakephp-model-methods-" + html, "cm-cakephp");
+            } 
+            else if (modelCallbacksRegExp.test(html)) {
+                elm.classList.add("cm-dreamweaver-cakephp-model-callbacks-" + html, "cm-cakephp");
+            }			
+			else if (ctrlMethodsRegExp.test(html)) {
+                elm.classList.add("cm-dreamweaver-cakephp-controller-methods-" + html, "cm-cakephp");
+            }			
+			else if (ctrlCallbacksRegExp.test(html)) {
+                elm.classList.add("cm-dreamweaver-cakephp-controller-callbacks-" + html, "cm-cakephp");
+            }			
+			else if (componentsRegExp.test(html)) {
+                elm.classList.add("cm-dreamweaver-cakephp-components-" + html, "cm-cakephp");
+            }            
+            else if (othersRegExp.test(html)) {
+                var variable = html.replace("this", "string-this").replace("$", "");
+                elm.classList.add("cm-dreamweaver-cakephp-others-" + variable, "cm-cakephp");
+            } else if (othersRegExp.test(html.replace("$", ""))) {
+                // Another dirty hack to make it workable...
+                var variable = html.replace("this", "string-this").replace("$", "");
+                elm.classList.add("cm-dreamweaver-cakephp-others-" + variable, "cm-cakephp"); 
             }
         });
         
     }
 
+    // Constants
+    var MODES = ["php", "text/x-brackets-php", "application/x-httpd-php"];
     function updateUI() {
         var editor = EditorManager.getCurrentFullEditor();
         if(!editor){
             return;
         }
-        var cm = editor._codeMirror;
-        cm.removeOverlay(overlay);
-        cm.addOverlay(overlay);
-        cm.on("update", tag_color_change);
+        
+        var cm = editor._codeMirror,
+            cmMode;
+
+        // Only apply the overlay in a mode that *might* contain Javascript
+        cmMode = cm.options.mode;
+
+        if ((typeof cmMode) !== "string") {
+            cmMode = cm.options.mode.name;
+        }
+
+        if (MODES.indexOf(cmMode) !== -1) {
+            cm.removeOverlay(overlay);
+            cm.addOverlay(overlay);
+            cm.on("update", tag_color_change);
+        }
     }
 
     // Initialize extension
