@@ -12,9 +12,7 @@
         @request: #c774d9;
 		@component: #ffd766;
 
-        &.cm-dreamweaver-cakephp-model-properties:not(.cm-variable-2) {	
-			&-id{color: @model;}		
-			&-name{color: @model;}
+        &.cm-dreamweaver-cakephp-model-properties {	
 			&-validate{color: @model;}
             &-validationErrors{color: @model;}
             &-recursive{color: @model;}
@@ -142,7 +140,7 @@
 			&-Widget{color: @component;}			
         }
 		
-		&.cm-dreamweaver-cakephp-others {
+		&.cm-dreamweaver-cakephp-others {			
 			&-controller{color: @request;}
 			&-request{color: @request;}
 			&-Auth{color: #a6d634;}
@@ -150,9 +148,13 @@
 			&-deny{color: #e36d6d;}
 			&-error{color: #e36d6d;}
 			&-success{color: #a6d634;}
+			&-string-this{color: #b48fcd;}
         }
 				
         // [END] cm-variables starting with $ different color
+		
+		.cm-variable.cm-dreamweaver-cakephp-model-properties-id{color: @model;}		
+		.cm-variable.cm-dreamweaver-cakephp-model-properties-name{color: @model;}
     }
 	.cm-builtin {color: #e28642;}
     .cm-bracket {opacity: .9;}

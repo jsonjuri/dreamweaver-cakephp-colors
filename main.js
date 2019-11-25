@@ -6,7 +6,7 @@ define(function(require, exports, module) {
         AppInit = brackets.getModule("utils/AppInit"),
         MainViewManager = brackets.getModule("view/MainViewManager"),
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
-
+    
     var tagRegExp = new RegExp(/^[a-z\-]+[1-6]*$/);
 
     var overlay = {
@@ -30,8 +30,6 @@ define(function(require, exports, module) {
         var cmVariables = document.getElementById("editor-holder").querySelectorAll(".cm-variable, .cm-variable-1, .cm-variable-2, .cm-variable-3");
 		
 		var modelProperties = [
-			"name",
-			"id", 
 			"actsAs",
 			"belongsTo", 
 			"hasAndBelongsToMany",
@@ -41,6 +39,8 @@ define(function(require, exports, module) {
 			"validationErrors", 			
 			"recursive", 
 			"cacheQueries", 
+			"name",
+			"id", 
 			"primaryKey", 
 			"displayField",			
 			"useTable",
@@ -143,7 +143,8 @@ define(function(require, exports, module) {
 			"allow", 
 			"deny", 
 			"error",
-			"success"
+			"success",
+            "this"
 		];
         var othersRegExp = new RegExp("(startOthers|" + others.join('|') + "|endOthers)","g");
 		
@@ -180,7 +181,7 @@ define(function(require, exports, module) {
             var html = elm.innerHTML;
 		
             html = html.replace(/^(#|\.)/, "");
-
+            
             if (modelPropertiesRegExp.test(html)) {
                 var variable = html.replace("$", "");
                 elm.classList.add("cm-dreamweaver-cakephp-model-properties-" + variable);
@@ -205,23 +206,38 @@ define(function(require, exports, module) {
 			if (componentsRegExp.test(html)) {
                 elm.classList.add("cm-dreamweaver-cakephp-components-" + html);
             }
-			
-			if (othersRegExp.test(html)) {
-                elm.classList.add("cm-dreamweaver-cakephp-others-" + html);
+            
+            if (othersRegExp.test(html)) {
+                var variable = html.replace("this", "string-this").replace("$", "");
+                elm.classList.add("cm-dreamweaver-cakephp-others-" + variable);
             }
         });
         
     }
 
+    // Constants
+    var MODES = ["php", "text/x-brackets-php", "application/x-httpd-php"];
     function updateUI() {
         var editor = EditorManager.getCurrentFullEditor();
         if(!editor){
             return;
         }
-        var cm = editor._codeMirror;
-        cm.removeOverlay(overlay);
-        cm.addOverlay(overlay);
-        cm.on("update", tag_color_change);
+        
+        var cm = editor._codeMirror,
+            cmMode;
+
+        // Only apply the overlay in a mode that *might* contain Javascript
+        cmMode = cm.options.mode;
+
+        if ((typeof cmMode) !== "string") {
+            cmMode = cm.options.mode.name;
+        }
+
+        if (MODES.indexOf(cmMode) !== -1) {                
+            cm.removeOverlay(overlay);
+            cm.addOverlay(overlay);
+            cm.on("update", tag_color_change);
+        }
     }
 
     // Initialize extension
