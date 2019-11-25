@@ -30,6 +30,8 @@ define(function(require, exports, module) {
         var cmVariables = document.getElementById("editor-holder").querySelectorAll(".cm-variable, .cm-variable-1, .cm-variable-2, .cm-variable-3");
 		
 		var modelProperties = [
+			"name",
+			"id", 
 			"actsAs",
 			"belongsTo", 
 			"hasAndBelongsToMany",
@@ -39,8 +41,6 @@ define(function(require, exports, module) {
 			"validationErrors", 			
 			"recursive", 
 			"cacheQueries", 
-			"name",
-			"id", 
 			"primaryKey", 
 			"displayField",			
 			"useTable",
@@ -82,6 +82,7 @@ define(function(require, exports, module) {
 			"loadInfo",			
 			"query", 
 			"read", 
+			"write",
 			"remove",
 			"save", 
 			"saveField", 
@@ -89,7 +90,9 @@ define(function(require, exports, module) {
 			"setDataSource",
 			"setSource", 
 			"validate",
-			"validates"			
+			"validateData",
+			"validateFields",
+			"validates"
 		];
 		var modelMethodsRegExp = new RegExp("(startModelMethodes|" + modelMethods.join('|') + "|endModelMethods)","g");
 		
@@ -137,6 +140,8 @@ define(function(require, exports, module) {
 			"controller",
 			"request",
 			"Auth",
+			"allow", 
+			"deny", 
 			"error",
 			"success"
 		];
@@ -152,12 +157,22 @@ define(function(require, exports, module) {
 			"Email",
 			"RequestHandler",
 			"Security",
+			"Mail", // Start add your own components below
+			"Pagination",
 			"Json",
 			"Account",
 			"Logged",
 			"Activity",
 			"Application",
-			"Emojione"
+			"Emojione",
+			"Bot",
+			"Firebase",
+			"Verification",
+			"Password",
+			"Node",
+			"Token",
+			"Integer",
+			"Widget"
 		];
         var componentsRegExp = new RegExp("(startOthers|" + components.join('|') + "|endOthers)","g");
 
